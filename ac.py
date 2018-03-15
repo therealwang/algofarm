@@ -14,6 +14,14 @@ class AhoCorasick:
         self.failure = defaultdict(lambda: 0)
         self.outputs = defaultdict(set)
         
+    def createAlgo(self, wordlist):
+        if type(wordlist) != list:
+            return
+        else:
+            for word in wordlist:
+                self.addWord(word)
+            self.addFailures()
+        
     def addWord(self, word):
         state = 0
         
@@ -25,3 +33,31 @@ class AhoCorasick:
         
     def addFailures(self):
         q = deque(self.transitions[0, char] for char in self.chars[0])
+        
+        while q:
+            state = q.popleft()
+            
+            for char in self.chars[state]:
+                failstate = self.failure[state]
+                while failstate and (failstate, char) not in self.transitions:
+                    failstate = self.failure[failstate]
+                
+                    
+                nextstate = self.transitions[state, char]
+                
+                self.failure[nextstate] = self.transitions[failstate, char] if \
+                            (failstate, char) in self.transitions else 0
+                self.outputs[nextstate].update(self.outputs[self.failure[nextstate]])
+                
+                q.append(nextstate)
+                
+        
+    def search(self, text):
+        state = 0
+        
+        for i, char in zip(range(len(text)), text):
+            while state and (state, char) not in self.transitions:
+                state = self.failure[state]
+            state = self.transitions[state, char] if (state, char) in self.transitions else 0
+            if self.outputs[state]:
+                print '{}: {}'.format(i, self.outputs[state])
