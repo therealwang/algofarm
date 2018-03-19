@@ -13,12 +13,23 @@ class Graph:
         self.vertices = set()
         self.edges = defaultdict(dict)
         
+    ### Initializing ###
+        
     def addEdge(self, inp, out, weight = None, digraph = False):
         self.vertices.update([inp, out])
         self.edges[inp][out] = weight
         
         if not digraph:
             self.edges[out][inp] = weight
+            
+    def addEdgeSet(self, d):
+        self.vertices.update(d.keys())
+        for k in d:
+            self.edges[k].update(d[k])          
+            self.vertices.update(d[k].keys())
+            
+            
+    ### Searching ###
             
     def BFS(self, inp, out):
         if inp == out:
@@ -51,6 +62,8 @@ class Graph:
             q.extend([k for k in self.edges[nextvert] if k not in visited])
             
         return False
+    
+    ### Properties ###
     
     def alledges(self):
         edges = set()
