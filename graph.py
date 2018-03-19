@@ -51,6 +51,15 @@ class Graph:
             q.extend([k for k in self.edges[nextvert] if k not in visited])
             
         return False
+    
+    def alledges(self):
+        edges = set()
+        
+        for i in self.edges:
+            for j in self.edges[i]:
+                edges.add((i,j,self.edges[i][j]))
+                
+        return edges
 
 
 
@@ -79,6 +88,27 @@ def dijkstra(graph, start, end):
                 shortestpath[neighbor] = templen
                 
         
+        
+def floydwarshall(graph):
+    out = {i: {o: np.inf for o in graph.vertices} for i in graph.vertices}
+    
+    edges = graph.alledges()
+    
+    for i, j, d in edges:
+        out[i][j] = d
+        
+    for i in graph.vertices:
+        out[i][i] = 0
+        
+    for k in graph.vertices:
+        for i in graph.vertices:
+            for j in graph.vertices:
+                if out[i][j] > out[i][k] + out[k][j]:
+                    out[i][j] = out[i][k] + out[k][j]
+    
+    return out
+        
+    
                 
         
         
