@@ -6,6 +6,7 @@ Created on Wed Mar 14 22:20:21 2018
 """
 
 from collections import defaultdict, deque
+import numpy as np
 
 class Graph:
     def __init__(self):
@@ -50,3 +51,34 @@ class Graph:
             q.extend([k for k in self.edges[nextvert] if k not in visited])
             
         return False
+
+
+
+def dijkstra(graph, start, end):
+    if start not in graph.vertices or end not in graph.vertices:
+        return -1
+    
+    unvisited = set()
+    unvisited |= graph.vertices
+    
+    shortestpath = {v: np.inf if v != start else 0 for v in graph.vertices}
+    
+    while unvisited:
+        temp = {k: v for k, v in shortestpath.items() if k in unvisited}
+        nextvert = min(temp, key = temp.get)
+        if shortestpath[nextvert] == np.inf:
+            return -1
+        elif nextvert == end:
+            return shortestpath[end]
+        
+        unvisited.remove(nextvert)
+        
+        for neighbor in graph.edges[nextvert]:
+            templen = graph.edges[nextvert][neighbor] + shortestpath[nextvert]
+            if templen < shortestpath[neighbor]:
+                shortestpath[neighbor] = templen
+                
+        
+                
+        
+        
