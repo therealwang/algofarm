@@ -122,6 +122,21 @@ def floydwarshall(graph):
     return out
         
     
-                
+def bellmanford(g, source):
+    dist = defaultdict(lambda:np.inf)
+    pred = defaultdict(lambda:None)
+    
+    dist[source] = 0
+    
+    edges = g.alledges()
+    
+    for i in range(len(g.vertices)):
+        for i, o, d in edges:
+            if dist[i] + d < dist[o]:
+                dist[o] = dist[i] + d
+                pred[o] = i
+            
+    return dist
+        
         
         
