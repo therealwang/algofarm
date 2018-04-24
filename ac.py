@@ -24,6 +24,9 @@ out:
 29: set(['hi', 'hihi'])
 31: set(['hi', 'hihi'])
 '''
+
+
+
 from collections import defaultdict, deque
 
 class AhoCorasick:
