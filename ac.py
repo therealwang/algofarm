@@ -5,6 +5,25 @@ Created on Wed Mar 14 20:30:28 2018
 @author: yuwan
 """
 
+'''
+AhoCorasick algorithm for finding words in a given text.
+
+output prints the index at which any word ends in a given text
+
+Sample usage:
+a = AhoCorasick()
+a.createAlgo(['hi','bye','hihi'])
+a.search('hi my name is hihi wow byehihihi')
+
+out:
+1: set(['hi'])
+15: set(['hi'])
+17: set(['hi', 'hihi'])
+25: set(['bye'])
+27: set(['hi'])
+29: set(['hi', 'hihi'])
+31: set(['hi', 'hihi'])
+'''
 from collections import defaultdict, deque
 
 class AhoCorasick:
