@@ -27,6 +27,8 @@ def suffixArray(word):
         k <<= 1
     return out
         
+def sortedLocation(SA):
+    return [SA.index(i) for i in range(len(SA))]
         
     
 def LCP(word, index1, index2):
